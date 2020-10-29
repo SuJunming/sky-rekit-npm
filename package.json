@@ -1,16 +1,16 @@
 {
   "name": "sky-rekit",
-  "version": "0.1.2",
+  "author": "junming.su",
+  "version": "0.1.4",
   "description": "",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/index",
   "scripts": {
     "tsc": "tsc",
     "release": "NODE_ENV=PROD tsc && npm publish -access=public --registry http://registry.npmjs.org",
     "dev": "NODE_ENV=DEV ts-node-dev --respawn --transpile-only lib/index.ts"
   },
   "keywords": [],
-  "author": "junming.su",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^14.14.6"

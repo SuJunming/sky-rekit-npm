@@ -163,4 +163,7 @@ function startRekitStudio(port: any) {
     )
   })
 }
+if (ENV) {
+  startRekitStudio(3001)
+}
 module.exports = startRekitStudio

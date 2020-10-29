@@ -13,7 +13,7 @@ export default (
   model: any,
 ) => {
   const u = path.join(__dirname, '../' + p)
-  const models = u + '../models'
+  const models = u + '/../models'
   fs.mkdir(`${u}/${name}`, (error: any) => {
     if (error) {
       next(error)
@@ -48,8 +48,8 @@ export default (
             return
           }
           consola.success('🆗 写入model')
+          consola.success(fs.readdirSync(models))
         })
-        consola.success(fs.readdirSync(models))
       }
     }
   })

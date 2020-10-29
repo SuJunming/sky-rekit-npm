@@ -5,7 +5,7 @@ var fs = require('fs');
 var consola = require('consola');
 exports.default = (function (name, p, str, styleStr, modelStr, res, next, style, model) {
     var u = path.join(__dirname, '../' + p);
-    var models = u + '../models';
+    var models = u + '/../models';
     fs.mkdir(u + "/" + name, function (error) {
         if (error) {
             next(error);
@@ -36,8 +36,8 @@ exports.default = (function (name, p, str, styleStr, modelStr, res, next, style,
                         return;
                     }
                     consola.success('🆗 写入model');
+                    consola.success(fs.readdirSync(models));
                 });
-                consola.success(fs.readdirSync(models));
             }
         }
     });

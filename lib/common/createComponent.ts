@@ -48,7 +48,11 @@ export default (
             return
           }
           consola.success('🆗 写入model')
-          consola.success(fs.readdirSync(models))
+
+          const modelsList = fs.readdirSync(models).map((item: string) => {
+            return item.replace('.ts', '')
+          })
+          console.log(modelsList)
         })
       }
     }

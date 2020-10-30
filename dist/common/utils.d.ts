@@ -15,3 +15,4 @@ export declare const success: (data?: {
 };
 export declare const handleUrl: (url: string) => string;
 export declare const toLowerLine: (str: string) => string;
+export declare const readFileToArr: (fReadName: any, callback: any) => void;

@@ -11,6 +11,7 @@ var ejs = require('ejs');
 var fs = require('fs');
 var ENV = process.env.NODE_ENV === 'DEV';
 var _a = require('./common'), initRekit = _a.initRekit, deleteFolder = _a.deleteFolder, success = _a.success, handleUrl = _a.handleUrl, toLowerLine = _a.toLowerLine, createComponent = _a.createComponent;
+var pathUrl = ENV ? '../src/pages' : '../../../src/pages';
 function startRekitStudio(port) {
     return new Promise(function (resolve, reject) {
         var app = initRekit(port);
@@ -71,10 +72,6 @@ function startRekitStudio(port) {
                 });
                 return components;
             };
-            var pathUrl = '../../../src/pages';
-            if (ENV) {
-                pathUrl = '../src/pages';
-            }
             var components = deepFileJson(path.join(__dirname, pathUrl));
             var callbackArray = [
                 {
@@ -88,7 +85,7 @@ function startRekitStudio(port) {
         });
         app.post('/skyApi/delete', function (req, res, next) {
             var url = path.join(__dirname, req.body.item.path);
-            deleteFolder(url);
+            deleteFolder(req.body.item.name, url);
             res.send(success());
         });
     });

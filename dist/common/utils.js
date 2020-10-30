@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.toLowerLine = exports.handleUrl = exports.success = void 0;
+exports.readFileToArr = exports.toLowerLine = exports.handleUrl = exports.success = void 0;
+var readline = require('readline');
+var fs = require('fs');
 exports.success = function (data) {
     return {
         code: 1,
@@ -21,4 +23,19 @@ exports.toLowerLine = function (str) {
         temp = temp.slice(1);
     }
     return temp;
+};
+exports.readFileToArr = function (fReadName, callback) {
+    var fRead = fs.createReadStream(fReadName);
+    var objReadline = readline.createInterface({
+        input: fRead,
+    });
+    var arr = new Array();
+    objReadline.on('line', function (line) {
+        arr.push(line);
+        //console.log('line:'+ line);
+    });
+    objReadline.on('close', function () {
+        // console.log(arr);
+        callback(arr);
+    });
 };

@@ -159,14 +159,13 @@ function startRekitStudio(port: any) {
         let list: any = [
           { name: 'Component.ejs', path: './template/Component.ejs' },
           { name: 'HooksComponent.ejs', path: './template/HooksComponent.ejs' },
-          { name: 'TableComponent.ejs', path: './template/TableComponent.ejs' },
         ]
         if (fs.existsSync(templates)) {
           const files = fs.readdirSync(templates)
           files.forEach((item: any) => {
             list.push({
               name: item,
-              path: pathUrl + 'templates' +'/'+ item,
+              path: pathUrl + 'templates' + '/' + item,
             })
           })
         }

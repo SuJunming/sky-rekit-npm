@@ -83,7 +83,6 @@ function startRekitStudio(port) {
             var list = [
                 { name: 'Component.ejs', path: './template/Component.ejs' },
                 { name: 'HooksComponent.ejs', path: './template/HooksComponent.ejs' },
-                { name: 'TableComponent.ejs', path: './template/TableComponent.ejs' },
             ];
             if (fs.existsSync(templates)) {
                 var files = fs.readdirSync(templates);

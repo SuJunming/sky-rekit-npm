@@ -11,19 +11,14 @@ var ejs = require('ejs');
 var fs = require('fs');
 var ENV = process.env.NODE_ENV === 'DEV';
 var _a = require('./common'), initRekit = _a.initRekit, deleteFolder = _a.deleteFolder, success = _a.success, handleUrl = _a.handleUrl, toLowerLine = _a.toLowerLine, createComponent = _a.createComponent;
-var pathUrl = ENV ? '../src/pages' : '../../../src/pages';
+var pathUrl = ENV ? '../' : '../../../';
 function startRekitStudio(port) {
     return new Promise(function (resolve, reject) {
         var app = initRekit(port);
         app.post('/skyApi/addComponent', function (req, res, next) {
-            var _a = req.body, name = _a.name, model = _a.model, p = _a.p, componentType = _a.componentType, style = _a.style;
+            var _a = req.body, name = _a.name, model = _a.model, p = _a.p, componentPath = _a.componentPath, style = _a.style;
             var styleName = toLowerLine(name);
-            var cTp = {
-                1: 'Component',
-                2: 'HooksComponent',
-                3: 'TableComponent',
-            };
-            var componentStr = ejs.render(fs.readFileSync(path.join(__dirname, "./template/" + cTp[componentType] + ".ejs"), 'utf-8'), { name: name, styleName: styleName, model: model, style: style });
+            var componentStr = ejs.render(fs.readFileSync(path.join(__dirname, componentPath), 'utf-8'), { name: name, styleName: styleName, model: model, style: style });
             var styleStr = ejs.render(fs.readFileSync(path.join(__dirname, './template/Style.ejs'), 'utf-8'), { name: name, styleName: styleName });
             var modelStr = ejs.render(fs.readFileSync(path.join(__dirname, './template/Model.ejs'), 'utf-8'), { name: name });
             createComponent(name, p, componentStr, styleStr, modelStr, res, next, style, model);
@@ -72,16 +67,34 @@ function startRekitStudio(port) {
                 });
                 return components;
             };
-            var components = deepFileJson(path.join(__dirname, pathUrl));
+            var components = deepFileJson(path.join(__dirname, pathUrl + 'src/pages'));
             var callbackArray = [
                 {
                     children: __spreadArrays(components),
                     name: 'Features',
                     type: 1,
-                    path: pathUrl,
+                    path: pathUrl + 'src/pages',
                 },
             ];
             res.send(success(callbackArray));
+        });
+        app.post('/skyApi/getTemplates', function (req, res, next) {
+            var templates = path.join(__dirname, pathUrl + 'templates');
+            var list = [
+                { name: 'Component.ejs', path: './template/Component.ejs' },
+                { name: 'HooksComponent.ejs', path: './template/HooksComponent.ejs' },
+                { name: 'TableComponent.ejs', path: './template/TableComponent.ejs' },
+            ];
+            if (fs.existsSync(templates)) {
+                var files = fs.readdirSync(templates);
+                files.forEach(function (item) {
+                    list.push({
+                        name: item,
+                        path: pathUrl + 'templates' + '/' + item,
+                    });
+                });
+            }
+            res.send(success(list));
         });
         app.post('/skyApi/delete', function (req, res, next) {
             var url = path.join(__dirname, req.body.item.path);

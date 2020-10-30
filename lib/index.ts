@@ -10,6 +10,7 @@ const {
   toLowerLine,
   createComponent,
 } = require('./common')
+const pathUrl = ENV ? '../src/pages' : '../../../src/pages'
 
 function startRekitStudio(port: any) {
   return new Promise((resolve: () => void, reject: any) => {
@@ -130,10 +131,6 @@ function startRekitStudio(port: any) {
           })
           return components
         }
-        let pathUrl = '../../../src/pages'
-        if (ENV) {
-          pathUrl = '../src/pages'
-        }
         const components = deepFileJson(path.join(__dirname, pathUrl))
         const callbackArray = [
           {
@@ -150,14 +147,14 @@ function startRekitStudio(port: any) {
     app.post(
       '/skyApi/delete',
       (
-        req: { body: { item: { path: any } } },
+        req: { body: { item: { path: any; name: string } } },
         res: {
           send: (arg0: { code: number; status: string; data: any }) => void
         },
         next: any,
       ) => {
         const url = path.join(__dirname, req.body.item.path)
-        deleteFolder(url)
+        deleteFolder(req.body.item.name, url)
         res.send(success())
       },
     )

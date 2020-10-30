@@ -1,9 +1,16 @@
-export const success=(data?: { children: any[]; name: string; type: number; path: string }[] | undefined) => {
-    return {
-      code: 1,
-      status: 'done',
-      data: data || null,
-    }
+const readline = require('readline')
+const fs = require('fs')
+
+export const success = (
+  data?:
+    | { children: any[]; name: string; type: number; path: string }[]
+    | undefined,
+) => {
+  return {
+    code: 1,
+    status: 'done',
+    data: data || null,
+  }
 }
 
 export const handleUrl = (url: string) => {
@@ -20,4 +27,20 @@ export const toLowerLine = (str: string) => {
     temp = temp.slice(1)
   }
   return temp
+}
+
+export const readFileToArr = (fReadName: any, callback: any) => {
+  var fRead = fs.createReadStream(fReadName)
+  var objReadline = readline.createInterface({
+    input: fRead,
+  })
+  var arr = new Array()
+  objReadline.on('line', function (line: any) {
+    arr.push(line)
+    //console.log('line:'+ line);
+  })
+  objReadline.on('close', function () {
+    // console.log(arr);
+    callback(arr)
+  })
 }

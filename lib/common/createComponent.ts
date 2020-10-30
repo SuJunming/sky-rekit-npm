@@ -1,6 +1,7 @@
 const path = require('path')
 const fs = require('fs')
 const consola = require('consola')
+const { readFileToArr } = require('./utils')
 export default (
   name: any,
   p: any,
@@ -47,12 +48,25 @@ export default (
             next(error)
             return
           }
-          consola.success('🆗 写入model')
-
-          const modelsList = fs.readdirSync(models).map((item: string) => {
-            return item.replace('.ts', '')
+          readFileToArr(`${models}/index.ts`, (data: any) => {
+            data.unshift(`import { ${name} } from './${name}'`)
+            const index = data.findIndex(
+              (item: string) => item.indexOf('export {') !== -1,
+            )
+            data.splice(index + 1, 0, name + ',')
+            fs.writeFile(
+              `${models}/index.ts`,
+              data.join('\n'),
+              'utf8',
+              (error: any) => {
+                if (error) {
+                  next(error)
+                  return
+                }
+                consola.success('🆗 写入model')
+              },
+            )
           })
-          console.log(modelsList)
         })
       }
     }

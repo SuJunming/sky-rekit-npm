@@ -10,7 +10,7 @@ const {
   toLowerLine,
   createComponent,
 } = require('./common')
-const pathUrl = ENV ? '../src/pages' : '../../../src/pages'
+const pathUrl = ENV ? '../' : '../../../'
 
 function startRekitStudio(port: any) {
   return new Promise((resolve: () => void, reject: any) => {
@@ -23,7 +23,7 @@ function startRekitStudio(port: any) {
             name: any
             model: any
             p: any
-            componentType: any
+            componentPath: any
             style: any
           }
         },
@@ -32,18 +32,11 @@ function startRekitStudio(port: any) {
         },
         next: any,
       ) => {
-        const { name, model, p, componentType, style } = req.body
+        const { name, model, p, componentPath, style } = req.body
         const styleName = toLowerLine(name)
-        const cTp: any = {
-          1: 'Component',
-          2: 'HooksComponent',
-          3: 'TableComponent',
-        }
+
         const componentStr = ejs.render(
-          fs.readFileSync(
-            path.join(__dirname, `./template/${cTp[componentType]}.ejs`),
-            'utf-8',
-          ),
+          fs.readFileSync(path.join(__dirname, componentPath), 'utf-8'),
           { name, styleName, model, style },
         )
         const styleStr = ejs.render(
@@ -131,19 +124,55 @@ function startRekitStudio(port: any) {
           })
           return components
         }
-        const components = deepFileJson(path.join(__dirname, pathUrl))
+        const components = deepFileJson(
+          path.join(__dirname, pathUrl + 'src/pages'),
+        )
         const callbackArray = [
           {
             children: [...components],
             name: 'Features',
             type: 1,
-            path: pathUrl,
+            path: pathUrl + 'src/pages',
           },
         ]
         res.send(success(callbackArray))
       },
     )
-
+    app.post(
+      '/skyApi/getTemplates',
+      (
+        req: {
+          body: {
+            name: any
+            model: any
+            p: any
+            componentType: any
+            style: any
+          }
+        },
+        res: {
+          send: (arg0: { code: number; status: string; data: any }) => void
+        },
+        next: any,
+      ) => {
+        const templates = path.join(__dirname, pathUrl + 'templates')
+        let list: any = [
+          { name: 'Component.ejs', path: './template/Component.ejs' },
+          { name: 'HooksComponent.ejs', path: './template/HooksComponent.ejs' },
+          { name: 'TableComponent.ejs', path: './template/TableComponent.ejs' },
+        ]
+        if (fs.existsSync(templates)) {
+          const files = fs.readdirSync(templates)
+          files.forEach((item: any) => {
+            list.push({
+              name: item,
+              path: pathUrl + 'templates' +'/'+ item,
+            })
+          })
+        }
+        res.send(success(list))
+      },
+    )
     app.post(
       '/skyApi/delete',
       (

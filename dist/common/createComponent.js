@@ -39,7 +39,7 @@ exports.default = (function (name, p, str, styleStr, modelStr, res, next, style,
                     readFileToArr(models + "/index.ts", function (data) {
                         data.unshift("import { " + name + " } from './" + name + "'");
                         var index = data.findIndex(function (item) { return item.indexOf('export {') !== -1; });
-                        data.splice(index + 1, 0, name + ',');
+                        data[index] = data[index].replace('{', "{ " + name + ",");
                         fs.writeFile(models + "/index.ts", data.join('\n'), 'utf8', function (error) {
                             if (error) {
                                 next(error);

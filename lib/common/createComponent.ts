@@ -53,7 +53,7 @@ export default (
             const index = data.findIndex(
               (item: string) => item.indexOf('export {') !== -1,
             )
-            data.splice(index + 1, 0, name + ',')
+            data[index] = data[index].replace('{', `{ ${name},`)
             fs.writeFile(
               `${models}/index.ts`,
               data.join('\n'),

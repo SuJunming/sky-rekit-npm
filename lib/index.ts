@@ -15,6 +15,7 @@ const pathUrl = ENV ? '../' : '../../../'
 function startRekitStudio(port: any) {
   return new Promise((resolve: () => void, reject: any) => {
     const app = initRekit(port)
+    // 添加代码
     app.post(
       '/skyApi/addComponent',
       (
@@ -68,7 +69,7 @@ function startRekitStudio(port: any) {
         resolve()
       },
     )
-
+    // 获取文件和文件夹
     app.post(
       '/skyApi/getFiles',
       (
@@ -138,6 +139,7 @@ function startRekitStudio(port: any) {
         res.send(success(callbackArray))
       },
     )
+    //获取模板
     app.post(
       '/skyApi/getTemplates',
       (
@@ -172,6 +174,7 @@ function startRekitStudio(port: any) {
         res.send(success(list))
       },
     )
+    //删除
     app.post(
       '/skyApi/delete',
       (

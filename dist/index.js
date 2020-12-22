@@ -15,6 +15,7 @@ var pathUrl = ENV ? '../' : '../../../';
 function startRekitStudio(port) {
     return new Promise(function (resolve, reject) {
         var app = initRekit(port);
+        // 添加代码
         app.post('/skyApi/addComponent', function (req, res, next) {
             var _a = req.body, name = _a.name, model = _a.model, p = _a.p, componentPath = _a.componentPath, style = _a.style;
             var styleName = toLowerLine(name);
@@ -25,6 +26,7 @@ function startRekitStudio(port) {
             res.send(success());
             resolve();
         });
+        // 获取文件和文件夹
         app.post('/skyApi/getFiles', function (req, res, next) {
             //递归取出当前src下的列表
             var deepFileJson = function (p, i) {
@@ -78,6 +80,7 @@ function startRekitStudio(port) {
             ];
             res.send(success(callbackArray));
         });
+        //获取模板
         app.post('/skyApi/getTemplates', function (req, res, next) {
             var templates = path.join(__dirname, pathUrl + 'templates');
             var list = [
@@ -95,9 +98,10 @@ function startRekitStudio(port) {
             }
             res.send(success(list));
         });
+        //删除
         app.post('/skyApi/delete', function (req, res, next) {
-            var url = path.join(__dirname, req.body.item.path);
-            deleteFolder(req.body.item.name, url);
+            var url = path.join(__dirname, '/../../' + req.body.item.path);
+            deleteFolder(req.body.item.name, path, url);
             res.send(success());
         });
     });

@@ -184,8 +184,8 @@ function startRekitStudio(port: any) {
         },
         next: any,
       ) => {
-        const url = path.join(__dirname, req.body.item.path)
-        deleteFolder(req.body.item.name, url)
+        const url = path.join(__dirname, '/../../' + req.body.item.path)
+        deleteFolder(req.body.item.name, path, url)
         res.send(success())
       },
     )

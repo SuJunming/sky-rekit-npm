@@ -1,0 +1,23 @@
+import React, { useState, useEffect } from 'react'
+import C from "@C";
+import { Input } from 'antd'
+<% if (style) { %>
+import './index.scss'
+<% } %>
+const <%- name %> = (props: any) => {
+    useEffect(() => {}, [])
+
+ 
+    return <div className='<%- styleName %>_page'><%- name %></div>
+}
+<% if (model) { %>
+export default C({
+    modal: '<%- name %>',
+    Component: <%- name %>,
+    title: '<%- name %>'
+})
+<% } %>
+<% if (!model) { %>
+export default <%- name %>
+<% } %>
+  

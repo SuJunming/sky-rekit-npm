@@ -11,7 +11,7 @@ const {
   createComponent,
 } = require('./common')
 const pathUrl = ENV ? '../' : '../../../'
-
+let defaultList: any = ['Login']
 function startRekitStudio(port: any) {
   return new Promise((resolve: () => void, reject: any) => {
     const app = initRekit(port)
@@ -40,18 +40,20 @@ function startRekitStudio(port: any) {
           fs.readFileSync(path.join(__dirname, componentPath), 'utf-8'),
           { name, styleName, model, style },
         )
+        const styleP =
+          name === 'Login'
+            ? './template/LoginStyle.ejs'
+            : './template/Style.ejs'
+        const modelP =
+          name === 'Login'
+            ? './template/LoginModel.ejs'
+            : './template/Model.ejs'
         const styleStr = ejs.render(
-          fs.readFileSync(
-            path.join(__dirname, './template/Style.ejs'),
-            'utf-8',
-          ),
+          fs.readFileSync(path.join(__dirname, styleP), 'utf-8'),
           { name, styleName },
         )
         const modelStr = ejs.render(
-          fs.readFileSync(
-            path.join(__dirname, './template/Model.ejs'),
-            'utf-8',
-          ),
+          fs.readFileSync(path.join(__dirname, modelP), 'utf-8'),
           { name },
         )
         createComponent(
@@ -158,10 +160,7 @@ function startRekitStudio(port: any) {
         next: any,
       ) => {
         const templates = path.join(__dirname, pathUrl + 'templates')
-        let list: any = [
-          { name: 'Component.ejs', path: './template/Component.ejs' },
-          { name: 'HooksComponent.ejs', path: './template/HooksComponent.ejs' },
-        ]
+        let list: any = defaultList
         if (fs.existsSync(templates)) {
           const files = fs.readdirSync(templates)
           files.forEach((item: any) => {

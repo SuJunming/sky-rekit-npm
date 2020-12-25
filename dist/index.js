@@ -12,6 +12,11 @@ var fs = require('fs');
 var ENV = process.env.NODE_ENV === 'DEV';
 var _a = require('./common'), initRekit = _a.initRekit, deleteFolder = _a.deleteFolder, success = _a.success, handleUrl = _a.handleUrl, toLowerLine = _a.toLowerLine, createComponent = _a.createComponent;
 var pathUrl = ENV ? '../' : '../../../';
+var defaultList = [
+    { name: 'Component.ejs', path: './template/Component.ejs' },
+    { name: 'HooksComponent.ejs', path: './template/HooksComponent.ejs' },
+    { name: 'LoginComponent.ejs', path: './template/LoginComponent.ejs' },
+];
 function startRekitStudio(port) {
     return new Promise(function (resolve, reject) {
         var app = initRekit(port);
@@ -20,8 +25,14 @@ function startRekitStudio(port) {
             var _a = req.body, name = _a.name, model = _a.model, p = _a.p, componentPath = _a.componentPath, style = _a.style;
             var styleName = toLowerLine(name);
             var componentStr = ejs.render(fs.readFileSync(path.join(__dirname, componentPath), 'utf-8'), { name: name, styleName: styleName, model: model, style: style });
-            var styleStr = ejs.render(fs.readFileSync(path.join(__dirname, './template/Style.ejs'), 'utf-8'), { name: name, styleName: styleName });
-            var modelStr = ejs.render(fs.readFileSync(path.join(__dirname, './template/Model.ejs'), 'utf-8'), { name: name });
+            var styleP = name === 'Login'
+                ? './template/LoginStyle.ejs'
+                : './template/Style.ejs';
+            var modelP = name === 'Login'
+                ? './template/LoginModel.ejs'
+                : './template/Model.ejs';
+            var styleStr = ejs.render(fs.readFileSync(path.join(__dirname, styleP), 'utf-8'), { name: name, styleName: styleName });
+            var modelStr = ejs.render(fs.readFileSync(path.join(__dirname, modelP), 'utf-8'), { name: name });
             createComponent(name, p, componentStr, styleStr, modelStr, res, next, style, model);
             res.send(success());
             resolve();
@@ -83,10 +94,7 @@ function startRekitStudio(port) {
         //获取模板
         app.post('/skyApi/getTemplates', function (req, res, next) {
             var templates = path.join(__dirname, pathUrl + 'templates');
-            var list = [
-                { name: 'Component.ejs', path: './template/Component.ejs' },
-                { name: 'HooksComponent.ejs', path: './template/HooksComponent.ejs' },
-            ];
+            var list = defaultList;
             if (fs.existsSync(templates)) {
                 var files = fs.readdirSync(templates);
                 files.forEach(function (item) {

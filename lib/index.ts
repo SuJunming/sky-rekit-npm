@@ -11,7 +11,11 @@ const {
   createComponent,
 } = require('./common')
 const pathUrl = ENV ? '../' : '../../../'
-let defaultList: any = ['Login']
+let defaultList: any  = [
+  { name: 'Component.ejs', path: './template/Component.ejs' },
+  { name: 'HooksComponent.ejs', path: './template/HooksComponent.ejs' },
+  { name: 'LoginComponent.ejs', path: './template/LoginComponent.ejs' },
+]
 function startRekitStudio(port: any) {
   return new Promise((resolve: () => void, reject: any) => {
     const app = initRekit(port)

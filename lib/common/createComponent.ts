@@ -48,25 +48,26 @@ export default (
             next(error)
             return
           }
-          readFileToArr(`${models}/index.ts`, (data: any) => {
-            data.unshift(`import { ${name} } from './${name}'`)
-            const index = data.findIndex(
-              (item: string) => item.indexOf('export {') !== -1,
-            )
-            data[index] = data[index].replace('{', `{ ${name},`)
-            fs.writeFile(
-              `${models}/index.ts`,
-              data.join('\n'),
-              'utf8',
-              (error: any) => {
-                if (error) {
-                  next(error)
-                  return
-                }
-                consola.success('🆗 写入model')
-              },
-            )
-          })
+          consola.success('🆗 写入model')
+          // readFileToArr(`${models}/index.ts`, (data: any) => {
+          //   data.unshift(`import { ${name} } from './${name}'`)
+          //   const index = data.findIndex(
+          //     (item: string) => item.indexOf('export {') !== -1,
+          //   )
+          //   data[index] = data[index].replace('{', `{ ${name},`)
+          //   fs.writeFile(
+          //     `${models}/index.ts`,
+          //     data.join('\n'),
+          //     'utf8',
+          //     (error: any) => {
+          //       if (error) {
+          //         next(error)
+          //         return
+          //       }
+          //       consola.success('🆗 写入model')
+          //     },
+          //   )
+          // })
         })
       }
     }

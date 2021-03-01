@@ -9,7 +9,7 @@ exports.default = (function (name, path, url) {
     var model = path.join(__dirname, '../../../../src/models/' + name + '.ts');
     if (fs.existsSync(model)) {
         fs.unlinkSync(model);
-        consola.success('🆗 已删除model,请手动去index.ts移除model的引入.下一个版本上');
+        consola.success('🆗 已删除model');
     }
     if (fs.existsSync(url)) {
         if (url.indexOf('.tsx') === -1 && url.indexOf('.scss') === -1) {

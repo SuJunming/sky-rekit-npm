@@ -1,5 +1,5 @@
 import React from 'react'
-import C from "@C";
+import { connect } from 'dva'
 import { Input } from 'antd'
 
 import './index.scss'

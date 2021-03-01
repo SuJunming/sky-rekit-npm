@@ -1,17 +1,15 @@
-import request from "@request";
-export const <%- name %> = {
+import { request, Api } from "@api";
+export default {
+  namespace: '<%- name %>',
   state: {
-    data: [],
   },
+  effects: {},
   reducers: {
-    setData(state: any, payload: any) {
-      return { ...state, data: payload.data }
+   update(state:any, action:any) {
+      return {
+        ...state,
+        ...action.payload,
+      }
     },
   },
-  effects: (dispatch: any) => ({
-    test: async function (params: any) {
-      const data = await request.post(Api.test, params)
-      dispatch.<%- name %>.setData(data)
-    },
-  }),
 }

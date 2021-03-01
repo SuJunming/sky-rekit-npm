@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import C from "@C";
+import { connect } from 'dva'
 import { Input } from 'antd'
 <% if (style) { %>
 import './index.scss'
@@ -11,11 +11,7 @@ const <%- name %> = (props: any) => {
     return <div className='<%- styleName %>_page'><%- name %></div>
 }
 <% if (model) { %>
-export default C({
-    modal: '<%- name %>',
-    Component: <%- name %>,
-    title: '<%- name %>'
-})
+export default connect(({ <%- name %> }: any) => ({ <%- name %> }))(<%- name %>)
 <% } %>
 <% if (!model) { %>
 export default <%- name %>

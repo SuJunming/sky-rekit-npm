@@ -8,7 +8,7 @@ export default (name: string, path: any, url: string | string[]) => {
   if (fs.existsSync(model)) {
     fs.unlinkSync(model)
     consola.success(
-      '🆗 已删除model,请手动去index.ts移除model的引入.下一个版本上',
+      '🆗 已删除model',
     )
   }
   if (fs.existsSync(url)) {

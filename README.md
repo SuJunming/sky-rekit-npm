@@ -5,6 +5,7 @@
 一键新增ClassComponent HooksComponent 
 
 可选项:
+
 -model (dva)
 
 -scss

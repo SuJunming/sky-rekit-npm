@@ -2,7 +2,9 @@
 
 可视化GUI生成项目
 
-一键新增ClassComponent HooksComponent 
+一键新增组件:
+
+ClassComponent HooksComponent 
 
 可选项:
 

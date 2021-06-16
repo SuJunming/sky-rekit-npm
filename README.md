@@ -1,20 +1,7 @@
-#Add template
+可视化GUI生成项目
 
-1. Create folder template
-2. Add a file containing component or style or model
-3. reload page
+一键新增component.scss.model.
+内置3-4套模板.
+支持自定义模板.
 
-#Export Variable
-
-###Component
-#####name:Component Name
-#####styleName styleName
-#####model:is use model
-#####style:is use style
-
-###Style
-#####name:Component Name
-#####styleName styleName
-
-###Model
-#####model: Component Name
+准备回头升级为类似vue ui.
